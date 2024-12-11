@@ -1,0 +1,36 @@
+# Composer dependencies
+/vendor/
+composer.phar
+
+# PHP specific
+*.php~
+*.phps
+.php-cs-fixer.cache
+
+# Cache and logs
+*.log
+*.cache
+.phpunit.result.cache
+.php_cs.cache
+
+# IDE specific files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+.settings/
+.project
+.buildpath
+.DS_Store
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build and test artifacts
+/build/
+/coverage/
+/docs/build/
+clover.xml
+*.bak

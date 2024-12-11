@@ -1,0 +1,32 @@
+{
+    "name": "cmatosbc/mnemosyne",
+    "description": "PSR compliant caching system using PHP attributes.",
+    "type": "library",
+    "require": {
+        "php": ">=8.0",
+        "psr/simple-cache": "3.0.x-dev",
+        "psr/cache": "3.0.x-dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "mockery/mockery": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mnemosyne\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mnemosyne\\Tests\\": "tests/"
+        }
+    },
+    "license": "gpl-3.0-or-later",
+    "authors": [
+        {
+            "name": "Carlos Matos",
+            "email": "carlosarturmatos1977@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}

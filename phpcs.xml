@@ -1,0 +1,24 @@
+<ruleset name="Custom PHPCS Configuration">
+<description>PHP_CodeSniffer configuration following PSR-12 standards</description>
+<!--  Paths to include or exclude from the analysis  -->
+<file>./src</file>
+<exclude-pattern>./vendor</exclude-pattern>
+<!--  Use PSR-12 as base  -->
+<rule ref="PSR12"/>
+<!--  Enable auto fixing and configure tools  -->
+<arg name="colors"/>
+<arg value="sp"/>
+<arg name="basepath" value="."/>
+<arg name="extensions" value="php"/>
+<arg name="parallel" value="75"/>
+<arg name="cache" value=".phpcs-cache"/>
+<arg name="tab-width" value="4"/>
+<arg name="encoding" value="utf-8"/>
+<!--  Exclude some specific rules if needed  -->
+<rule ref="Generic.Files.LineLength">
+<properties>
+<property name="lineLimit" value="120"/>
+<property name="absoluteLineLimit" value="120"/>
+</properties>
+</rule>
+</ruleset>
