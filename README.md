@@ -1,5 +1,7 @@
 # Mnemosyne - PHP Attribute-based Caching Library
 
+[![PHP Lint](https://github.com/cmatosbc/mnemosyne/actions/workflows/lint.yml/badge.svg)](https://github.com/cmatosbc/mnemosyne/actions/workflows/lint.yml) [![PHPUnit Tests](https://github.com/cmatosbc/mnemosyne/actions/workflows/phpunit.yml/badge.svg)](https://github.com/cmatosbc/mnemosyne/actions/workflows/phpunit.yml) [![PHP Composer](https://github.com/cmatosbc/mnemosyne/actions/workflows/composer.yml/badge.svg)](https://github.com/cmatosbc/mnemosyne/actions/workflows/composer.yml)
+
 Mnemosyne is a powerful and flexible caching library for PHP 8.0+ that uses attributes to simplify cache management. It provides automatic caching and invalidation based on method attributes, making it easy to add caching to your application.
 
 ## Features
