@@ -14,7 +14,7 @@ Mnemosyne is a powerful and flexible caching library for PHP 8.0+ that uses attr
 ## Installation
 
 ```bash
-composer require your-vendor/mnemosyne
+composer require cmatosbc/mnemosyne
 ```
 
 ## Usage
