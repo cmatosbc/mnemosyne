@@ -194,7 +194,7 @@ The library includes comprehensive PHPUnit tests. Run them with:
 
 ## License
 
-MIT License
+This project is licensed under the GNU General Public License v3.0 or later - see the LICENSE file for details. This means you are free to use, modify, and distribute this software, but any modifications must also be released under the GPL-3.0-or-later license.
 
 ## Contributing
 
