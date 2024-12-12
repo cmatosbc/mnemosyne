@@ -10,6 +10,7 @@ Mnemosyne is a powerful and flexible caching library for PHP 8.0+ that uses attr
 - Automatic cache key generation
 - Parameter-based cache keys with interpolation
 - Automatic and manual cache invalidation
+- Cache tags for group invalidation
 - PSR-16 (SimpleCache) compatibility
 - Flexible cache key templates
 
@@ -126,6 +127,51 @@ class UserService
     }
 }
 ```
+
+### Cache Tags
+
+Cache tags allow you to group related cache entries and invalidate them together. This is useful for managing cache dependencies and bulk invalidation.
+
+```php
+class UserService
+{
+    use CacheTrait;
+
+    #[Cache(
+        key: 'user:{id}',
+        ttl: 3600,
+        tags: ['user', 'user-{id}']
+    )]
+    public function getUser(int $id): array
+    {
+        return $this->cacheCall('doGetUser', func_get_args());
+    }
+
+    #[Cache(
+        key: 'user:profile:{id}',
+        ttl: 3600,
+        tags: ['user', 'user-{id}']
+    )]
+    public function getUserProfile(int $id): array
+    {
+        return $this->cacheCall('doGetUserProfile', func_get_args());
+    }
+
+    public function updateUser(int $id): void
+    {
+        // Invalidate all caches for a specific user
+        $this->invalidateTag("user-$id");
+    }
+
+    public function clearAllUserCaches(): void
+    {
+        // Invalidate all user-related caches
+        $this->invalidateTag('user');
+    }
+}
+```
+
+Tags support parameter interpolation just like cache keys, allowing you to create dynamic tag names. When a tag is invalidated, all cache entries associated with that tag are automatically removed.
 
 ## Best Practices
 
