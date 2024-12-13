@@ -13,6 +13,10 @@ Mnemosyne is a powerful and flexible caching library for PHP 8.0+ that uses attr
 - Cache tags for group invalidation
 - PSR-16 (SimpleCache) compatibility
 - Flexible cache key templates
+- Smart serialization handling:
+  - Automatic serialization of complex objects
+  - Optional raw storage for simple data types
+  - Full control over serialization behavior
 
 ## Installation
 
@@ -21,6 +25,11 @@ composer require cmatosbc/mnemosyne
 ```
 
 ## Usage
+
+To use Mnemosyne in your classes, you must:
+1. Use the `CacheTrait` in your class
+2. Inject a PSR-16 compatible cache implementation
+3. Apply the `Cache` attribute to methods you want to cache
 
 ### Basic Usage
 
@@ -31,7 +40,7 @@ use Psr\SimpleCache\CacheInterface;
 
 class UserService
 {
-    use CacheTrait;
+    use CacheTrait;  // Required to enable caching functionality
 
     public function __construct(CacheInterface $cache)
     {
@@ -48,6 +57,31 @@ class UserService
     {
         // Expensive database query here
         return ['id' => $id, 'name' => 'John Doe'];
+    }
+}
+```
+
+### Serialization Control
+
+The `Cache` attribute allows you to control how values are stored in cache:
+
+```php
+class UserService
+{
+    use CacheTrait;
+
+    // Automatically serialize complex objects
+    #[Cache(key: 'user:{id}', ttl: 3600, serialize: true)]
+    public function getUser(int $id): User
+    {
+        return $this->cacheCall('doGetUser', func_get_args());
+    }
+
+    // Store simple arrays without serialization
+    #[Cache(key: 'users:list', ttl: 3600, serialize: false)]
+    public function getUsersList(): array
+    {
+        return $this->cacheCall('doGetUsersList', func_get_args());
     }
 }
 ```

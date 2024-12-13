@@ -182,4 +182,55 @@ class CacheAttributeTest extends TestCase
         $this->assertEquals('user:42', $operations[1]['key']);
         $this->assertEquals(3600, $operations[1]['ttl']);
     }
+
+    public function testSerializationEnabled(): void
+    {
+        echo "\nTest: Method With Serialization\n";
+        echo "----------------------------\n";
+
+        // First call should cache the serialized object
+        echo "First call (should miss cache and store serialized result):\n";
+        $result1 = $this->service->methodWithSerialization(42);
+        echo "Result: " . json_encode($result1) . "\n";
+
+        // Verify the cached value is serialized
+        $cachedValue = $this->cache->get('complex:42');
+        $this->assertTrue(is_string($cachedValue));
+        $this->assertStringStartsWith('O:8:"stdClass":', $cachedValue);
+
+        // Second call should unserialize from cache
+        echo "\nSecond call (should hit cache and unserialize):\n";
+        $result2 = $this->service->methodWithSerialization(42);
+        echo "Result: " . json_encode($result2) . "\n";
+
+        // Verify both results are identical objects
+        $this->assertEquals($result1->id, $result2->id);
+        $this->assertEquals($result1->count, $result2->count);
+        $this->assertEquals($result1->timestamp, $result2->timestamp);
+        $this->assertEquals(1, $this->service->getCounter());
+    }
+
+    public function testSerializationDisabled(): void
+    {
+        echo "\nTest: Method Without Serialization\n";
+        echo "--------------------------------\n";
+
+        // First call should cache the raw array
+        echo "First call (should miss cache and store raw result):\n";
+        $result1 = $this->service->methodWithoutSerialization(42);
+        echo "Result: " . json_encode($result1) . "\n";
+
+        // Verify the cached value is not serialized
+        $cachedValue = $this->cache->get('noserialize:42');
+        $this->assertIsArray($cachedValue);
+        $this->assertEquals($result1, $cachedValue);
+
+        // Second call should return the raw cached array
+        echo "\nSecond call (should hit cache):\n";
+        $result2 = $this->service->methodWithoutSerialization(42);
+        echo "Result: " . json_encode($result2) . "\n";
+
+        $this->assertEquals($result1, $result2);
+        $this->assertEquals(1, $this->service->getCounter());
+    }
 }

@@ -98,7 +98,7 @@ trait CacheTrait
         if ($key !== null) {
             $result = $this->cache->get($key);
             if ($result !== null) {
-                return $result;
+                return $config->serialize ? unserialize($result) : $result;
             }
         }
 
@@ -108,7 +108,8 @@ trait CacheTrait
 
         // Cache the result if we have a key
         if ($key !== null) {
-            $this->cache->set($key, $result, $config->ttl);
+            $valueToCache = $config->serialize ? serialize($result) : $result;
+            $this->cache->set($key, $valueToCache, $config->ttl);
 
             // Store tags if any are defined
             if (!empty($config->tags)) {

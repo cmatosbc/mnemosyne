@@ -32,12 +32,14 @@ class Cache
      * @param int|null $ttl Time-to-live in seconds. If null, cache will not expire.
      * @param array $invalidates List of cache key templates to invalidate when this method is called.
      * @param array $tags List of tags to associate with this cache entry. Supports parameter interpolation.
+     * @param bool|null $serialize Whether to serialize the result before caching. If null, will be determined automatically.
      */
     public function __construct(
         public ?string $key = null,
         public ?int $ttl = null,
         public array $invalidates = [],
         public array $tags = [],
+        public ?bool $serialize = null,
     ) {
     }
 }

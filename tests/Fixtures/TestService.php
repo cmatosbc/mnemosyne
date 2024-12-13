@@ -80,6 +80,32 @@ class TestService
         return ['id' => $id, 'deptId' => $deptId, 'count' => ++$this->counter];
     }
 
+    #[Cache(key: 'complex:{id}', ttl: 3600, serialize: true)]
+    public function methodWithSerialization(int $id): \stdClass
+    {
+        return $this->cacheCall('doMethodWithSerialization', func_get_args());
+    }
+
+    private function doMethodWithSerialization(int $id): \stdClass
+    {
+        $obj = new \stdClass();
+        $obj->id = $id;
+        $obj->count = ++$this->counter;
+        $obj->timestamp = time();
+        return $obj;
+    }
+
+    #[Cache(key: 'noserialize:{id}', ttl: 3600, serialize: false)]
+    public function methodWithoutSerialization(int $id): array
+    {
+        return $this->cacheCall('doMethodWithoutSerialization', func_get_args());
+    }
+
+    private function doMethodWithoutSerialization(int $id): array
+    {
+        return ['id' => $id, 'count' => ++$this->counter];
+    }
+
     public function manualInvalidation(int $id): void
     {
         $this->invalidateCache("user:$id");
